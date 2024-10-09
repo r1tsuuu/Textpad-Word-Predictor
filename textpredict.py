@@ -23,7 +23,23 @@ words = Wordlist('EnglishWords.txt')
 ### DON'T TOUCH the code above
 
 def predict(digits: str) -> set[str]:
-    # TO-DO
+    result = set()
+    
+    def backtrack(index, current_word):
+        if index == len(digits):
+            if words.contains(current_word):
+                result.add(current_word)
+            return
+        
+        digit = digits[index]
+        if digit in keypad:
+            for letter in keypad[digit]:
+                new_word = current_word + letter
+                if words.contains_prefix(new_word):
+                    backtrack(index + 1, new_word)
+
+    backtrack(0, "")
+    return result
 
 
 ### DON'T TOUCH the code below

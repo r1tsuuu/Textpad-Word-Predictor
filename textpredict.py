@@ -23,24 +23,24 @@ words = Wordlist('EnglishWords.txt')
 ### DON'T TOUCH the code above
 
 def predict(digits: str) -> set[str]:
-    result = set()
+    possible_words = set()
     
-    def backtrack(index, current_word):
-        if index == len(digits):
-            if words.contains(current_word):
-                result.add(current_word)
+    #this is basically recursive backtracking
+    def backtrack(position, current_string):
+        if position == len(digits):
+            if words.contains(current_string):
+                possible_words.add(current_string)
             return
-        
-        digit = digits[index]
-        if digit in keypad:
-            for letter in keypad[digit]:
-                new_word = current_word + letter
-                if words.contains_prefix(new_word):
-                    backtrack(index + 1, new_word)
+
+        current_digit = digits[position]
+        # Since we assume the input digits are valid, no further validation is required.
+        for character in keypad[current_digit]:
+            next_string = current_string + character
+            if words.contains_prefix(next_string):
+                backtrack(position + 1, next_string)
 
     backtrack(0, "")
-    return result
-
+    return possible_words
 
 ### DON'T TOUCH the code below
 
